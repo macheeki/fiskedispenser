@@ -1,0 +1,25 @@
+from machine import Pin
+import time
+
+DISTANCE_PIN = Pin(26, Pin.IN)
+'''LED_PIN = Pin(15, Pin.OUT)'''
+def getDistance():
+    while DISTANCE_PIN.value() == True:
+        pass
+    while DISTANCE_PIN.value() == False:
+        pass
+    starttime = time.time_ns()
+    while DISTANCE_PIN.value() == True:
+        pass
+    endtime = time.time_ns()
+    diff_in_cm = (endtime - starttime) / 100
+    return diff_in_cm
+
+'''while True:
+    distance = getDistance()
+    print("Distance:", distance)
+    if distance >= 10000:
+        LED_PIN.value(1)
+    else:
+        LED_PIN.value(0)
+    time.sleep(1)'''
