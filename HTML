@@ -1,0 +1,29 @@
+def web_page():
+    html = """
+            <html>
+<head>
+    <title>DC Motor Kontrol</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html { font-family: Arial; display: inline-block; text-align: center; }
+        .button { background-color: #4CAF50; border: none; color: white;
+        padding: 16px 40px; text-align: center; text-decoration: none;
+        display: inline-block; font-size: 16px; margin: 4px 2px;
+        cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>DC Motor Kontrol</h1>
+    <form action="/start_motor" method="get">
+        <input type="submit" value="Start Motor" class="button">
+    </form>
+    <ul>
+        <li><a href="/10-35"><button>10:35</button></a></li>
+        <li><a href="/12-00"><button>12:00</button></a></li>
+        <li><a href="/16-00"><button>16:00</button></a></li>
+        <li><a href="/20-00"><button>20:00</button></a></li>
+    </ul>
+</body>
+</html>
+            """
+    return html
