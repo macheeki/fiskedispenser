@@ -40,20 +40,16 @@ def start_server():
         request = conn.recv(1024)
         conn.settimeout(None)
         request = str(request)
-        kl08 = request.find("10-35")
+        fiveSec = request.find("/5sec")
         kl12 = request.find("/12-00")
         kl16 = request.find("/16-00")
-        kl20 = request.find("/20-00")
+        kl17_23 = request.find("/17-23")
 
 
         """if '/start_motor' in request:
             run_motor()"""
-        if kl08 == 6:
-            timeNow = getTimer().datetime()
-            timeAmount = (timeNow[6] + (timeNow[5] * 60) + (timeNow[4] * 60 * 24)) * 1000
-            targetTime = [10, 35, 0]
-            diff = ((targetTime[2] + (targetTime[1] * 60) + (targetTime[0] * 60 * 24)) * 1000) - timeAmount
-            setTimer.init(mode=Timer.ONE_SHOT, period=diff, callback=setDailyRutine)
+        if fiveSec == 6:
+            actTimer.init(mode=Timer.ONE_SHOT, period= 5 * 1000, callback= run_motor)
 
         if kl12 == 6:
             timeNow = getTimer().datetime()
@@ -69,12 +65,15 @@ def start_server():
             diff = ((targetTime[2] + (targetTime[1] * 60) + (targetTime[0] * 60 * 24)) * 1000) - timeAmount
             setTimer.init(mode=Timer.ONE_SHOT, period=diff, callback=setDailyRutine)
 
-        if kl20 == 6:
+        if kl17_23 == 6:
             timeNow = getTimer().datetime()
             timeAmount = (timeNow[6] + (timeNow[5] * 60) + (timeNow[4] * 60 * 24)) * 1000
-            targetTime = [20, 0, 0]
+            targetTime = [17, 24, 0]
             diff = ((targetTime[2] + (targetTime[1] * 60) + (targetTime[0] * 60 * 24)) * 1000) - timeAmount
             setTimer.init(mode=Timer.ONE_SHOT, period=diff, callback=setDailyRutine)
+
+
+
 
 
         response = web_page()
