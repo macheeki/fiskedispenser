@@ -1,0 +1,17 @@
+import network
+
+def connect():
+    ssid = 'ITEK 3rd'
+    password = '3semNET!'
+
+    station = network.WLAN(network.STA_IF)
+
+    station.active(True)
+    station.connect(ssid, password)
+
+    while station.isconnected() == False:
+        pass
+
+
+    print('Connection successful')
+    print(station.ifconfig())
