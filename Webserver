@@ -3,7 +3,7 @@ from HTML import web_page
 from DCmotor import *
 from machine import Timer, Pin
 from time_sync import getTimer
-import time
+import sensorDriver as sd
 
 setTimer = Timer(-1)
 actTimer = Timer(-1)
@@ -12,15 +12,19 @@ blinkTimer = Timer(-1)
 
 LED = Pin("LED", Pin.OUT)
 
-def blink(t):
+
+def enoughFood(t):
     print(t)
-    LED.value(not LED.value())
+    distance = sd.getDistance()
+    threshold = 10000
 
-def setDailyBlink(t):
-    print(t)
-    actTimer.init(mode=Timer.PERIODIC, period= 30*1000, callback=blink)
+    if distance >= threshold:
+        sd.getLED().on()
+    else:
+        sd.getLED().off()
+    print(distance)
 
-
+blinkTimer.init(mode=Timer.PERIODIC, period= 10*1000, callback=enoughFood)
 
 def setDailyRutine(t):
     print(t)
@@ -40,16 +44,20 @@ def start_server():
         request = conn.recv(1024)
         conn.settimeout(None)
         request = str(request)
-        fiveSec = request.find("/5sec")
+        kl08 = request.find("/11-54")
         kl12 = request.find("/12-00")
         kl16 = request.find("/16-00")
-        kl17_23 = request.find("/17-23")
+        kl20 = request.find("/20-00")
 
 
         """if '/start_motor' in request:
             run_motor()"""
-        if fiveSec == 6:
-            actTimer.init(mode=Timer.ONE_SHOT, period= 5 * 1000, callback= run_motor)
+        if kl08 == 6:
+            timeNow = getTimer().datetime()
+            timeAmount = (timeNow[6] + (timeNow[5] * 60) + (timeNow[4] * 60 * 24)) * 1000
+            targetTime = [11, 54, 0]
+            diff = ((targetTime[2] + (targetTime[1] * 60) + (targetTime[0] * 60 * 24)) * 1000) - timeAmount
+            setTimer.init(mode=Timer.ONE_SHOT, period=diff, callback=setDailyRutine)
 
         if kl12 == 6:
             timeNow = getTimer().datetime()
@@ -65,13 +73,12 @@ def start_server():
             diff = ((targetTime[2] + (targetTime[1] * 60) + (targetTime[0] * 60 * 24)) * 1000) - timeAmount
             setTimer.init(mode=Timer.ONE_SHOT, period=diff, callback=setDailyRutine)
 
-        if kl17_23 == 6:
+        if kl20 == 6:
             timeNow = getTimer().datetime()
             timeAmount = (timeNow[6] + (timeNow[5] * 60) + (timeNow[4] * 60 * 24)) * 1000
-            targetTime = [17, 24, 0]
+            targetTime = [20, 0, 0]
             diff = ((targetTime[2] + (targetTime[1] * 60) + (targetTime[0] * 60 * 24)) * 1000) - timeAmount
             setTimer.init(mode=Timer.ONE_SHOT, period=diff, callback=setDailyRutine)
-
 
 
 
