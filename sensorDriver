@@ -15,11 +15,14 @@ def getDistance():
     diff_in_cm = (endtime - starttime) / 100
     return diff_in_cm
 
-while True:
+def getLED():
+    return LED_PIN
+
+"""while True:
     distance = getDistance()
     print("Distance:", distance)
     if distance >= 10000:
         LED_PIN.value(1)
     else:
         LED_PIN.value(0)
-    time.sleep(1)
+    time.sleep(1)"""
