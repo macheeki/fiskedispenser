@@ -1,14 +1,7 @@
-"""import wifi
+import wifi
 
 wifi.connect()
 
 import Webserver
 
-Webserver.start_server()"""
-
-import sensorDriver as sd
-from time import sleep
-
-while 1:
-    print(sd.getDistance())
-    sleep(1)
+Webserver.start_server()
