@@ -4,6 +4,10 @@ import time
 DISTANCE_PIN = Pin(26, Pin.IN)
 LED_PIN = Pin(15, Pin.OUT, Pin.PULL_UP)
 def getDistance():
+    while DISTANCE_PIN.value() == True:
+        pass
+    while DISTANCE_PIN.value() == False:
+        pass
     starttime = time.time_ns()
     while DISTANCE_PIN.value() == True:
         pass
