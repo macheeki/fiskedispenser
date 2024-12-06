@@ -16,7 +16,7 @@ LED = Pin("LED", Pin.OUT)
 def enoughFood(t):
     print(t)
     distance = sd.getDistance()
-    threshold = 10000
+    threshold = 3600
 
     if distance >= threshold:
         sd.getLED().on()
@@ -44,7 +44,7 @@ def start_server():
         request = conn.recv(1024)
         conn.settimeout(None)
         request = str(request)
-        kl08 = request.find("/09-46")
+        kl08 = request.find("/12-30")
         kl12 = request.find("/12-00")
         kl16 = request.find("/16-00")
         kl20 = request.find("/20-00")
@@ -55,7 +55,7 @@ def start_server():
         if kl08 == 6:
             timeNow = getTimer().datetime()
             timeAmount = (timeNow[6] + (timeNow[5] * 60) + (timeNow[4] * 60 * 24)) * 1000
-            targetTime = [9, 46, 0]
+            targetTime = [12, 30, 0]
             diff = ((targetTime[2] + (targetTime[1] * 60) + (targetTime[0] * 60 * 24)) * 1000) - timeAmount
             setTimer.init(mode=Timer.ONE_SHOT, period=diff, callback=setDailyRutine)
 
