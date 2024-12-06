@@ -1,15 +1,10 @@
 from machine import Pin, PWM
 import time
 
-# Opsætning af PWM på Pin 16
 pwm = PWM(Pin(16))
 pwm.freq(1000)
 
 def set_motor_speed(speed):
-    """
-    Sæt motorhastigheden med en værdi mellem 0 og 100.
-    :param speed: Hastighed i procent (0-100)
-    """
     if 0 <= speed <= 100:
         duty = int((speed / 100) * 65535)
         pwm.duty_u16(duty)
@@ -18,17 +13,12 @@ def set_motor_speed(speed):
         print("Fejl: Hastighed skal være mellem 0 og 100.")
 
 def stop_motor():
-    """
-    Stop motoren ved at sætte PWM duty cycle til 0.
-    """
     pwm.duty_u16(0)
     print("Motor stoppet.")
 
 def run_motor(t):
     print(t)
-    """
-    Kører motoren i 10 sekunder ved 100% hastighed.
-    """
-    set_motor_speed(100)  # Starter motoren ved 100% hastighed
-    time.sleep(10)        # Kører i 10 sekunder
+
+    set_motor_speed(30)  # Starter motoren ved 100% hastighed
+    time.sleep(2)        # Kører i 10 sekunder
     stop_motor()          # Stopper motoren
