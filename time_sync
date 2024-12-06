@@ -5,7 +5,6 @@ import ustruct as struct
 
 NTP_HOST = "0.dk.pool.ntp.org"
 OFFSET = 3600
-#OFFSET = OFFSET * 2
 
 def getTimeNTP():
     NTP_DELTA = 2208988800
@@ -23,7 +22,6 @@ def getTimeNTP():
 
     return time.gmtime(ntp_time - NTP_DELTA + OFFSET)
 
-# Funktion: copy time to PI pico´s RTC
 def setTimeRTC():
     tm = getTimeNTP()
     timer.datetime((tm[0], tm[1], tm[2], tm[6] + 1, tm[3], tm[4], tm[5], 0))
